@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#region Serializable classes
+#region Serializable classes // This section contains classes which can be serialized in the Inspector
 [System.Serializable]
 public class EnemyWaves 
 {

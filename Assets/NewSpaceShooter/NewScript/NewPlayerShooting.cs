@@ -21,8 +21,9 @@ public class NewPlayerShooting : MonoBehaviour
 
     public newGuns guns; // đối tượng súng
     bool shootingIsActive = true; // trạng thái bắn
-    [HideInInspector] public int maxweaponPower = 4; // sức mạnh vũ khí tối đa
+    [HideInInspector] public int maxweaponPower = 4; //  vũ khí tối đa
     public static NewPlayerShooting instance; // instance của lớp
+
     private void Awake()
     {
         if (instance == null)
