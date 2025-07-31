@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8107702908337913632}
   m_Layer: 0
   m_Name: Machine Gun
-  m_TagString: Untagged
+  m_TagString: BulletPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   damage: 1
   enemyBullet: 1
   destroyedByCollision: 1
+  mau: 100
 --- !u!114 &2022070923630040953
 MonoBehaviour:
   m_ObjectHideFlags: 0

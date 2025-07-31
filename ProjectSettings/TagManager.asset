@@ -18,6 +18,7 @@ TagManager:
   - Bullet_001
   - Enemy01
   - NewPlayer
+  - BulletPlayer
   layers:
   - Default
   - TransparentFX
