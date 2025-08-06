@@ -4,28 +4,29 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// This script moves the ‘Enemy’ along the defined path.
+/// Script này điều khiển kẻ địch (‘Enemy’) di chuyển theo một đường dẫn được xác định.
 /// </summary>
-public class FollowThePath : MonoBehaviour {
-        
-    [HideInInspector] public Transform [] path; //path points which passes the 'Enemy' 
-    [HideInInspector] public float speed; 
-    [HideInInspector] public bool rotationByPath;   //whether 'Enemy' rotates in path direction or not
-    [HideInInspector] public bool loop;         //if loop is true, 'Enemy' returns to the path starting point after completing the path
-    float currentPathPercent;               //current percentage of completing the path
-    Vector3[] pathPositions;                //path points in vector3
-    [HideInInspector] public bool movingIsActive;   //whether 'Enemy' moves or not
+public class FollowThePath : MonoBehaviour
+{
 
-    //setting path parameters for the 'Enemy' and sending the 'Enemy' to the path starting point
-    public void SetPath() 
+    [HideInInspector] public Transform[] path; //Các điểm trên đường đi mà kẻ địch sẽ đi qua
+    [HideInInspector] public float speed;
+    [HideInInspector] public bool rotationByPath;   //Kẻ địch có xoay theo hướng của đường đi hay không
+    [HideInInspector] public bool loop;         //Nếu loop là true, kẻ địch sẽ quay lại điểm bắt đầu sau khi hoàn thành đường đi
+    float currentPathPercent;               //Phần trăm hoàn thành đường đi hiện tại
+    Vector3[] pathPositions;                //Các điểm trên đường đi dưới dạng Vector3
+    [HideInInspector] public bool movingIsActive;   //Kẻ địch có đang di chuyển hay không
+
+    //Thiết lập các thông số đường đi cho kẻ địch và đưa kẻ địch đến điểm bắt đầu của đường đi
+    public void SetPath()
     {
         currentPathPercent = 0;
-        pathPositions = new Vector3[path.Length];       //transform path points to vector3
+        pathPositions = new Vector3[path.Length];       //Chuyển các điểm trên đường đi sang Vector3
         for (int i = 0; i < pathPositions.Length; i++)
         {
             pathPositions[i] = path[i].position;
         }
-        transform.position = NewPositionByPath(pathPositions, 0); //sending the enemy to the path starting point
+        transform.position = NewPositionByPath(pathPositions, 0); //Đưa kẻ địch đến điểm bắt đầu của đường đi
         if (!rotationByPath)
             transform.rotation = Quaternion.identity;
         movingIsActive = true;
@@ -35,32 +36,32 @@ public class FollowThePath : MonoBehaviour {
     {
         if (movingIsActive)
         {
-            currentPathPercent += speed / 100 * Time.deltaTime;     //every update calculating current path percentage according to the defined speed
+            currentPathPercent += speed / 100 * Time.deltaTime;     //Mỗi lần cập nhật, tính phần trăm đường đi đã hoàn thành dựa theo tốc độ
 
-            transform.position = NewPositionByPath(pathPositions, currentPathPercent); //moving the 'Enemy' to the path position, calculated in method NewPositionByPath
-            if (rotationByPath)                            //rotating the 'Enemy' in path direction, if set 'rotationByPath'
+            transform.position = NewPositionByPath(pathPositions, currentPathPercent); //Di chuyển kẻ địch đến vị trí trên đường đi, tính bằng phương thức NewPositionByPath
+            if (rotationByPath)                            //Xoay kẻ địch theo hướng của đường đi, nếu đã bật rotationByPath
             {
                 transform.right = Interpolate(CreatePoints(pathPositions), currentPathPercent + 0.01f) - transform.position;
                 transform.Rotate(Vector3.forward * 90);
             }
-            if (currentPathPercent > 1)                    //when the path is complete
+            if (currentPathPercent > 1)                    //Khi hoàn thành đường đi
             {
-                if (loop)                                   //when loop is set, moving to the path starting point; if not, destroying or deactivating the 'Enemy'
+                if (loop)                                   //Nếu bật loop, quay lại điểm bắt đầu; nếu không, tiêu diệt hoặc vô hiệu hoá kẻ địch
                     currentPathPercent = 0;
                 else
                 {
-                    Destroy(gameObject);           
+                    Destroy(gameObject);
                 }
             }
         }
     }
 
-    Vector3 NewPositionByPath(Vector3 [] pathPos, float percent) 
+    Vector3 NewPositionByPath(Vector3[] pathPos, float percent)
     {
         return Interpolate(CreatePoints(pathPos), currentPathPercent);
     }
 
-    Vector3 Interpolate(Vector3[] path, float t) 
+    Vector3 Interpolate(Vector3[] path, float t)
     {
         int numSections = path.Length - 3;
         int currPt = Mathf.Min(Mathf.FloorToInt(t * numSections), numSections - 1);
@@ -72,7 +73,7 @@ public class FollowThePath : MonoBehaviour {
         return 0.5f * ((-a + 3f * b - 3f * c + d) * (u * u * u) + (2f * a - 5f * b + 4f * c - d) * (u * u) + (-a + c) * u + 2f * b);
     }
 
-    Vector3[] CreatePoints(Vector3[] path) 
+    Vector3[] CreatePoints(Vector3[] path)
     {
         Vector3[] pathPositions;
         Vector3[] newPathPos;
