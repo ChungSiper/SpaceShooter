@@ -88,26 +88,26 @@ public class Wave : MonoBehaviour {
         DrawPath(pathPoints);  
     }
 
-    void DrawPath(Transform[] path) //drawing the path in the Editor
+    void DrawPath(Transform[] path) //vẽ đường đi trong trình chỉnh sửa
     {
-        Vector3[] pathPositions = new Vector3[path.Length];
-        for (int i = 0; i < path.Length; i++)
+        Vector3[] pathPositions = new Vector3[path.Length]; // tạo mảng Vector3 để lưu trữ vị trí của các điểm trên đường đi
+        for (int i = 0; i < path.Length; i++)   // lặp qua từng điểm trong mảng path
         {
-            pathPositions[i] = path[i].position;
+            pathPositions[i] = path[i].position;  // lưu vị trí của điểm vào mảng pathPositions
         }
-        Vector3[] newPathPositions = CreatePoints(pathPositions);
-        Vector3 previosPositions = Interpolate(newPathPositions, 0);
-        Gizmos.color = pathColor;
-        int SmoothAmount = path.Length * 20;
-        for (int i = 1; i <= SmoothAmount; i++)
+        Vector3[] newPathPositions = CreatePoints(pathPositions);  // tạo các điểm mới trên đường đi bằng cách sử dụng phương pháp nội suy
+        Vector3 previosPositions = Interpolate(newPathPositions, 0); // khởi tạo vị trí trước đó bằng cách nội suy điểm đầu tiên của đường đi
+        Gizmos.color = pathColor;   // đặt màu sắc của Gizmos để vẽ đường đi
+        int SmoothAmount = path.Length * 20; // số lượng điểm mượt mà để vẽ đường đi
+        for (int i = 1; i <= SmoothAmount; i++)       // lặp qua số lượng điểm mượt mà
         {
-            float t = (float)i / SmoothAmount;
-            Vector3 currentPositions = Interpolate(newPathPositions, t);
-            Gizmos.DrawLine(currentPositions, previosPositions);
-            previosPositions = currentPositions;
+            float t = (float)i / SmoothAmount;   
+            Vector3 currentPositions = Interpolate(newPathPositions, t); // nội suy vị trí hiện tại dựa trên tỉ lệ i và tổng số điểm mượt mà
+            Gizmos.DrawLine(currentPositions, previosPositions); // vẽ đường thẳng giữa vị trí hiện tại và vị trí trước đó
+            previosPositions = currentPositions; // cập nhật vị trí trước đó cho lần lặp tiếp theo
         }
     }
-
+    // phương pháp nội suy để tính toán vị trí trên đường đi dựa trên tỉ lệ t
     Vector3 Interpolate(Vector3[] path, float t) 
     {
         int numSections = path.Length - 3;
@@ -119,10 +119,10 @@ public class Wave : MonoBehaviour {
         Vector3 d = path[currPt + 3];
         return 0.5f * ((-a + 3f * b - 3f * c + d) * (u * u * u) + (2f * a - 5f * b + 4f * c - d) * (u * u) + (-a + c) * u + 2f * b);
     }
-
+    // phương pháp tạo các điểm mới trên đường đi bằng cách sử dụng phương pháp nội suy
     Vector3[] CreatePoints(Vector3[] path)  //using interpolation method calculating the path along the path points
     {
-        Vector3[] pathPositions;
+        Vector3[] pathPositions; 
         Vector3[] newPathPos;
         int dist = 2;
         pathPositions = path;

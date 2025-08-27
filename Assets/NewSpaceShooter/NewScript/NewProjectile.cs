@@ -26,12 +26,13 @@ public class NewProjectile : MonoBehaviour
         //Nếu đạn phóng ra là của Người chơi và va chạm với kẻ thù
         else if (collision.CompareTag("Enemy01"))
         {
-            // Gọi phương thức GetDamage của NewEnemy để xử lý sát thương
-            // và kiểm tra xem có cần phá hủy vật thể phóng ra hay không
             
                 Destruction();
+            
+                
         }
     }
+    
     void Destruction() 
     {
         //Phá huỷ viên đạn sau khi va chạm

@@ -16,7 +16,9 @@ public class NewPlayerMoving : MonoBehaviour
     public float speed = 5f; //Tốc độ di chuyển của người chơi.
     Camera mainCamera;              //Biến để lưu trữ camera chính của trò chơi.
     bool controlIsActive = true;    //Biến để kiểm soát việc di chuyển của người chơi.
-
+    
+    public float moveSpeed = 5f; // Tốc độ di chuyển của người chơi, có thể được điều chỉnh từ Inspector.
+    public float tiltAmount = 5f; // Số lượng nghiêng của người chơi khi di chuyển, có thể được điều chỉnh từ Inspector.
     public static NewPlayerMoving instance; //Biến tĩnh để lưu trữ phiên bản duy nhất của lớp này, giúp truy cập dễ dàng từ các lớp khác.
 
     private void Awake() // Phương thức Awake được gọi khi đối tượng được khởi tạo.
@@ -28,6 +30,7 @@ public class NewPlayerMoving : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main; //Lấy camera chính của trò chơi.
+        
         RiesizeBorders(); //Gọi phương thức để điều chỉnh biên giới di chuyển của người chơi.
     }
 
@@ -44,6 +47,7 @@ public class NewPlayerMoving : MonoBehaviour
                 Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition); //Tính toán vị trí chuột trong không gian thế giới
                 mousePosition.z = transform.position.z; //Đặt giá trị z của vị trí chuột bằng với giá trị z của đối tượng người chơi
                 transform.position = Vector3.MoveTowards(transform.position, mousePosition, speed * Time.deltaTime); //Di chuyển người chơi về phía vị trí chuột
+  
             }
 #endif
 
