@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class AnimationController : MonoBehaviour
@@ -18,6 +18,22 @@ public class AnimationController : MonoBehaviour
         
         _animatior.SetFloat("Speed", v);
         _animatior.SetFloat("Horizontal", h);
-        
+
+        //Nhảy lên
+        if (Input.GetButtonDown("Jump"))
+        {
+            _animatior.SetTrigger("Jump");
+        }
+        //Chạy nước rút
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _animatior.SetBool("Runing", true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _animatior.SetBool("Runing", false);
+        }
+
+
     }
 }

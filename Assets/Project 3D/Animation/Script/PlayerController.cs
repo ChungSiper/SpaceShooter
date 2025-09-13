@@ -6,10 +6,12 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
+    private Rigidbody rb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         walkAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
     }
@@ -30,11 +32,7 @@ public class PlayerController : MonoBehaviour
         if (jumpAction.triggered)
         {
             Debug.Log("Jump");
-            // Implement jump logic here
-            Vector2 jump = new Vector3(0, jumpForce, 0) * Time.deltaTime;
-            transform.Translate(jump, Space.World);
-
-
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 }
